@@ -1,26 +1,121 @@
 import React, { useRef, useEffect, useState } from 'react';
 import MarioCoderGIF from '@/assets/mario-coder.gif';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { MdQuestionMark } from 'react-icons/md';
+import { LuEye, LuEyeClosed } from 'react-icons/lu';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const GreetingScreen = () => {
+  const [isBlinking, setIsBlinking] = useState(false);
   const [isQuestionClicked, setIsQuestionClicked] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const questionRef = useRef<HTMLDivElement>(null);
+  const [questionOffset, setQuestionOffset] = useState({ x: 0, y: 0 });
+  const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
+  const [magneticScale, setMagneticScale] = useState(0);
+  const [eyeOpacity, setEyeOpacity] = useState<number>(1);
+
+  // Blinking logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsBlinking(true);
+      setTimeout(() => setIsBlinking(false), 120);
+    }, 3000 * Math.random() + 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Magnetic effect logic
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!questionRef.current) return;
+      const rect = questionRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const threshold = 300; // px
+      const scale = 1.4 * Math.max(0, (threshold - distance) / threshold);
+
+      const eyeStrength = 0.015;
+      setEyeOffset({ x: dx * eyeStrength, y: dy * eyeStrength });
+
+      if (distance < threshold) {
+        const strength = ((threshold - distance) / threshold) * 0.4;
+        setQuestionOffset({ x: dx * strength, y: dy * strength });
+        setEyeOpacity(0);
+      } else {
+        setQuestionOffset({ x: 0, y: 0 });
+        setEyeOpacity(1);
+      }
+      setMagneticScale(scale);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  // Section fade-in animation
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+    gsap.set(sectionRef.current, { opacity: 0, filter: 'blur(16px)' });
+    gsap.to(sectionRef.current, {
+      opacity: 1,
+      duration: 2.5,
+      filter: 'blur(0px)',
+    });
+  }, []);
 
   return (
-    <section className='w-dvw h-dvh relative'>
-      <div className='bg-black w-full h-full absolute inset-0 flex justify-center items-center'>
+    <section className='w-dvw h-dvh relative bg-black'>
+      <div
+        className='w-full h-full absolute inset-0 flex justify-center items-center'
+        ref={sectionRef}
+      >
         <div
-          className={`absolute text-green-500 text-5xl hover:scale-125 z-20 border-4 border-green-500 bg-black rounded-full p-2 hover:text-black hover:bg-green-500 duration-500 ${
+          className={`absolute text-green-500 text-5xl hover:scale-150 z-20 border-4 border-green-500 bg-black rounded-full p-6 hover:text-black hover:bg-green-500 duration-500 ${
             isQuestionClicked ? 'opacity-0 cursor-default' : 'cursor-pointer'
           }`}
+          style={{
+            boxShadow: '0 0 15px oklch(50% 0.219 149.579)',
+          }}
           onClick={() => {
             if (!isQuestionClicked) {
               setIsQuestionClicked(true);
             }
           }}
         >
-          <MdQuestionMark />
+          <div
+            ref={questionRef}
+            style={{
+              transform: `translate(${questionOffset.x}px, ${questionOffset.y}px) scale(${magneticScale})`,
+              transition: 'all 25ms linear',
+            }}
+          >
+            <MdQuestionMark />
+          </div>
+          <div
+            className='absolute left-0 top-0 w-full h-full flex justify-center items-center'
+            style={{
+              opacity: eyeOpacity,
+              transition: 'opacity 100ms linear',
+            }}
+          >
+            <div
+              className='flex justify-center items-center'
+              style={{
+                transform: `translate(${eyeOffset.x}px, ${eyeOffset.y}px)`,
+                transition: 'all 25ms linear',
+              }}
+            >
+              {isBlinking ? (
+                <LuEyeClosed className='absolute' />
+              ) : (
+                <LuEye className='absolute' />
+              )}
+            </div>
+          </div>
         </div>
         {isQuestionClicked && <TextIntroduction />}
         <MatrixBackground isQuestionClicked={isQuestionClicked} />
@@ -43,11 +138,18 @@ const MatrixBackground = ({
 }) => {
   const chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
   const getRandomChar = () => chars[Math.floor(Math.random() * chars.length)];
-  const backgroundRef = useRef<HTMLDivElement>(null);
+
   const [matrix, setMatrix] = useState<string[]>([]);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const canChangeRef = useRef(true);
 
   useEffect(() => {
+    if (isQuestionClicked && !canChangeRef.current) return;
+
     const updateMatrix = () => {
+      if (!canChangeRef.current) return;
+      canChangeRef.current = false;
+      setTimeout(() => (canChangeRef.current = true), 40);
       const charWidth = 16; // px
       const charHeight = 16; // px
       const width = backgroundRef.current?.offsetWidth || window.innerWidth;
@@ -66,7 +168,7 @@ const MatrixBackground = ({
       window.removeEventListener('resize', updateMatrix);
       window.removeEventListener('mousemove', updateMatrix);
     };
-  }, []);
+  }, [isQuestionClicked]);
 
   return (
     <div
@@ -75,13 +177,13 @@ const MatrixBackground = ({
       }`}
     >
       <div
-        className='text-green-500 opacity-70 font-mono absolute inset-0 whitespace-pre select-none text-sm overflow-hidden'
+        className='text-green-500 font-mono absolute inset-0 whitespace-pre select-none text-sm overflow-hidden'
         ref={backgroundRef}
         style={{
           maskImage:
-            'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 70%)',
+            'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 80%)',
           WebkitMaskImage:
-            'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 70%)',
+            'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 80%)',
         }}
       >
         {matrix.join('\n')}
