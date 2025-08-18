@@ -61,7 +61,7 @@ const GreetingScreen = () => {
     gsap.set(sectionRef.current, { opacity: 0, filter: 'blur(16px)' });
     gsap.to(sectionRef.current, {
       opacity: 1,
-      duration: 2.5,
+      duration: 2,
       filter: 'blur(0px)',
     });
   }, []);
@@ -141,7 +141,7 @@ const MatrixBackground = ({
     const updateMatrix = () => {
       if (!canChangeRef.current) return;
       canChangeRef.current = false;
-      setTimeout(() => (canChangeRef.current = true), 60);
+      setTimeout(() => (canChangeRef.current = true), 50);
       const charWidth = 16; // px
       const charHeight = 16; // px
       const width = backgroundRef.current?.offsetWidth || window.innerWidth;
@@ -198,7 +198,7 @@ const TextIntroduction = () => {
       scale: 1.1,
     });
     gsap.to(children, {
-      delay: 1.5,
+      delay: 0.75,
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
@@ -215,7 +215,7 @@ const TextIntroduction = () => {
         filter: 'blur(16px)',
       });
       gsap.to(subtitleBlockRef.current, {
-        delay: 2.75,
+        delay: 2,
         duration: 2,
         opacity: 1,
         x: 0,
