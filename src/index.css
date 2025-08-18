@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,4 +10,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@utility blue-gradient-text {
+  background: linear-gradient(to top left, #5433ff, #20bdff, #a5fecb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility green-gradient-text {
+  background: linear-gradient(to top left, #0fd850, #f9f047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }

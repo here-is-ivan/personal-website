@@ -80,7 +80,7 @@ const WorkExperience = () => {
       gsap.set(squaresContainerRef.current, { filter: 'blur(16px)' });
       gsap.to(squaresContainerRef.current, {
         scale: 1,
-        filter: 'blur(0px)',
+        filter: 'blur(2px)',
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
@@ -92,7 +92,7 @@ const WorkExperience = () => {
   }, []);
 
   return (
-    <section className='relative w-dvw min-h-dvh flex justify-center bg-black -z-10 overflow-hidden'>
+    <section className='relative w-dvw min-h-dvh flex justify-center dark:bg-black -z-10 overflow-hidden'>
       <div
         className='absolute w-full h-full flex flex-col'
         ref={squaresContainerRef}
@@ -118,7 +118,7 @@ const WorkExperience = () => {
                     ref={(el) => {
                       squaresRefs.current[rowIdx][colIdx] = el;
                     }}
-                    className='square w-3 h-3 bg-green-500 rounded-sm'
+                    className='square w-3 h-3 dark:bg-green-500 bg-blue-400 rounded-sm'
                     style={{
                       transform: `scale(${scale})`,
                       transition: 'transform 0.15s',
@@ -130,22 +130,14 @@ const WorkExperience = () => {
           </div>
         ))}
       </div>
-      <div className='w-full flex flex-col text-white z-10 relative'>
+      <div className='w-full flex flex-col dark:text-white text-black z-10 relative'>
         <h2
           ref={titleRef}
-          className='text-center my-12 font-bold text-3xl'
-          style={{
-            background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
+          className='blue-gradient-text dark:green-gradient-text text-center my-12 font-bold text-3xl'
         >
           My Work Experience
         </h2>
-        <div
-          className='flex flex-1 gap-4 md:gap-12 w-full px-4 md:w-10/12 mx-auto mb-12'
-          style={{ position: 'relative' }}
-        >
+        <div className='flex flex-1 gap-4 md:gap-12 w-full px-4 md:w-10/12 mx-auto mb-12 relative'>
           <div className='flex-1 flex flex-col items-center justify-around text-right'>
             <div
               ref={(el) => {
@@ -153,14 +145,7 @@ const WorkExperience = () => {
               }}
             >
               <header className='mb-2'>
-                <h3
-                  className='font-bold text-xl'
-                  style={{
-                    background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
+                <h3 className='blue-gradient-text dark:green-gradient-text font-bold text-xl'>
                   Fullstack Software Engineer Internship
                 </h3>
                 <div>Apr 2025 - Aug 2025</div>
@@ -177,14 +162,7 @@ const WorkExperience = () => {
               }}
             >
               <header className='mb-2'>
-                <h3
-                  className='font-bold text-xl'
-                  style={{
-                    background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
+                <h3 className='blue-gradient-text dark:green-gradient-text font-bold text-xl'>
                   Founder & Indie Game Developer
                 </h3>
                 <div>Jan 2022 - Sep 2022</div>
@@ -196,7 +174,7 @@ const WorkExperience = () => {
               </p>
             </div>
           </div>
-          <div className='w-[1px] h-auto bg-green-400'></div>
+          <div className='w-[1px] h-auto dark:bg-green-400 bg-black'></div>
           <div className='flex-1 flex flex-col items-center justify-around'>
             <div
               ref={(el) => {
@@ -204,14 +182,7 @@ const WorkExperience = () => {
               }}
             >
               <header className='mb-2'>
-                <h3
-                  className='font-bold text-xl'
-                  style={{
-                    background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
+                <h3 className='blue-gradient-text dark:green-gradient-text font-bold text-xl'>
                   Software Engineer - Volna Studios
                 </h3>
                 <div>Nov 2022 - Dec 2023</div>

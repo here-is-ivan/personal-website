@@ -67,18 +67,15 @@ const GreetingScreen = () => {
   }, []);
 
   return (
-    <section className='w-dvw h-dvh relative bg-black'>
+    <section className='w-dvw h-dvh relative bg-white dark:bg-black'>
       <div
         className='w-full h-full absolute inset-0 flex justify-center items-center'
         ref={sectionRef}
       >
         <div
-          className={`absolute text-green-500 text-5xl hover:scale-150 z-20 border-4 border-green-500 bg-black rounded-full p-6 hover:text-black hover:bg-green-500 duration-500 ${
+          className={`absolute text-blue-400 dark:text-green-500 text-5xl hover:scale-150 z-20 border-4  dark:border-green-500 dark:bg-black bg-white rounded-full p-6 dark:hover:text-black hover:text-white hover:bg-blue-400 dark:hover:bg-green-500 duration-500 shadow-[0_0_15px_oklch(50%_0.219_234.5)] dark:shadow-[0_0_15px_oklch(50%_0.219_149.579)] ${
             isQuestionClicked ? 'opacity-0 cursor-default' : 'cursor-pointer'
           }`}
-          style={{
-            boxShadow: '0 0 15px oklch(50% 0.219 149.579)',
-          }}
           onClick={() => {
             if (!isQuestionClicked) {
               setIsQuestionClicked(true);
@@ -89,7 +86,7 @@ const GreetingScreen = () => {
             ref={questionRef}
             style={{
               transform: `translate(${questionOffset.x}px, ${questionOffset.y}px) scale(${magneticScale})`,
-              transition: 'all 25ms linear',
+              transition: 'transform 25ms linear',
             }}
           >
             <MdQuestionMark />
@@ -164,12 +161,12 @@ const MatrixBackground = ({
 
   return (
     <div
-      className={`absolute inset-0 z-0 pointer-events-none duration-500 ${
+      className={`absolute inset-0 z-0 pointer-events-none ${
         isQuestionClicked ? 'opacity-0' : ''
       }`}
     >
       <div
-        className='text-green-500 font-mono absolute inset-0 whitespace-pre select-none text-sm overflow-hidden'
+        className='text-blue-400 dark:text-green-500 font-mono absolute inset-0 whitespace-pre select-none text-sm overflow-hidden'
         ref={backgroundRef}
         style={{
           maskImage:
@@ -226,7 +223,7 @@ const TextIntroduction = () => {
   }, []);
 
   return (
-    <header className='relative text-white flex items-center justify-center w-full h-full z-10 p-8 sm:p-16'>
+    <header className='relative dark:text-white text-black flex items-center justify-center w-full h-full z-10 p-8 sm:p-16'>
       <div className='w-full md:w-1/2'>
         <h1
           className='flex max-w-96 flex-wrap gap-4 text-6xl font-black mb-8'
@@ -236,15 +233,7 @@ const TextIntroduction = () => {
           <div>My</div>
           <div>Name</div>
           <div>Is</div>
-          <div
-            style={{
-              background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Ivan
-          </div>
+          <div className='blue-gradient-text dark:green-gradient-text'>Ivan</div>
         </h1>
         <p className='text-xl leading-relaxed' ref={subtitleBlockRef}>
           Full-stack software engineer with 1 year of experience building

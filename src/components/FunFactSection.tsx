@@ -76,14 +76,9 @@ const FunFactSection = () => {
   }, [steveJobsPortraitLarge.length]);
 
   return (
-    <section className='min-h-dvh w-dvw flex items-center justify-center flex-col bg-black text-green-500 py-12'>
+    <section className='min-h-dvh w-dvw flex items-center justify-center flex-col dark:bg-black dark:text-green-500 py-12'>
       <h2
-        className='font-black text-4xl mb-6'
-        style={{
-          background: 'linear-gradient(to top left,#0fd850,#f9f047)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}
+        className='blue-gradient-text dark:green-gradient-text font-black text-4xl mb-6'
       >
         Fun Fact
       </h2>
