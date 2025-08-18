@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
-import MarioCoderGIF from '@/assets/mario-coder.gif';
+import { useRef, useEffect, useState } from 'react';
 import { MdQuestionMark } from 'react-icons/md';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
 import { useGSAP } from '@gsap/react';
@@ -34,7 +33,7 @@ const GreetingScreen = () => {
       const dx = e.clientX - centerX;
       const dy = e.clientY - centerY;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const threshold = 300; // px
+      const threshold = 200; // px
       const scale = 1.4 * Math.max(0, (threshold - distance) / threshold);
 
       const eyeStrength = 0.015;
@@ -120,13 +119,6 @@ const GreetingScreen = () => {
         {isQuestionClicked && <TextIntroduction />}
         <MatrixBackground isQuestionClicked={isQuestionClicked} />
       </div>
-      <div className='absolute left-0 top-0 h-full w-full -z-10'>
-        <img
-          src={MarioCoderGIF}
-          alt=''
-          className='h-full w-full object-cover'
-        />
-      </div>
     </section>
   );
 };
@@ -149,7 +141,7 @@ const MatrixBackground = ({
     const updateMatrix = () => {
       if (!canChangeRef.current) return;
       canChangeRef.current = false;
-      setTimeout(() => (canChangeRef.current = true), 40);
+      setTimeout(() => (canChangeRef.current = true), 60);
       const charWidth = 16; // px
       const charHeight = 16; // px
       const width = backgroundRef.current?.offsetWidth || window.innerWidth;
