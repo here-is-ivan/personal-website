@@ -96,7 +96,6 @@ const TechnologiesSection = () => {
           start: 'top 100%',
           end: 'top 80%',
           scrub: true,
-          markers: true,
         },
       }
     );
