@@ -3,6 +3,7 @@ import WorkExperience from '@/components/WorkExperienceScreen';
 import GetInTouchScreen from './components/GetInTouchScreen';
 import FunFactSection from './components/FunFactSection';
 import ThemeSwitch from './components/ThemeSwitch';
+import TechnologiesSection from './components/TechnologiesSection';
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <GreetingScreen />
       <WorkExperience />
       <FunFactSection />
+      <TechnologiesSection />
       <GetInTouchScreen />
     </div>
   );
