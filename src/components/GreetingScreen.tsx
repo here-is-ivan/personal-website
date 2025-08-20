@@ -130,10 +130,12 @@ const MatrixBackground = ({
 
   const [matrix, setMatrix] = useState<string[]>([]);
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const matrixRef = useRef<HTMLDivElement>(null);
   const canChangeRef = useRef(true);
 
   useEffect(() => {
-    if (isQuestionClicked && !canChangeRef.current) return;
+    if ((isQuestionClicked && !canChangeRef.current) || !matrixRef.current)
+      return;
 
     const updateMatrix = () => {
       if (!canChangeRef.current) return;
@@ -150,20 +152,24 @@ const MatrixBackground = ({
       );
       setMatrix(newMatrix);
     };
+
     updateMatrix();
     window.addEventListener('resize', updateMatrix);
-    window.addEventListener('mousemove', updateMatrix);
+
+    const currentMatrixRef = matrixRef.current;
+    if (!currentMatrixRef) return;
+
+    currentMatrixRef.addEventListener('mousemove', updateMatrix);
     return () => {
       window.removeEventListener('resize', updateMatrix);
-      window.removeEventListener('mousemove', updateMatrix);
+      currentMatrixRef.removeEventListener('mousemove', updateMatrix);
     };
   }, [isQuestionClicked]);
 
   return (
     <div
-      className={`absolute inset-0 z-0 pointer-events-none ${
-        isQuestionClicked ? 'opacity-0' : ''
-      }`}
+      className={`absolute inset-0 z-0 ${isQuestionClicked ? 'opacity-0' : ''}`}
+      ref={matrixRef}
     >
       <div
         className='text-blue-400 dark:text-green-500 font-mono absolute inset-0 whitespace-pre select-none text-sm overflow-hidden'
@@ -233,7 +239,9 @@ const TextIntroduction = () => {
           <div>My</div>
           <div>Name</div>
           <div>Is</div>
-          <div className='blue-gradient-text dark:green-gradient-text'>Ivan</div>
+          <div className='blue-gradient-text dark:green-gradient-text'>
+            Ivan
+          </div>
         </h1>
         <p className='text-xl leading-relaxed' ref={subtitleBlockRef}>
           Full-stack software engineer with 1 year of experience building

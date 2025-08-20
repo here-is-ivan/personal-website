@@ -1,6 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const FunFactSection = () => {
   // Steve Jobs ASCII portraits as arrays of strings
@@ -44,66 +47,116 @@ const FunFactSection = () => {
     '██████████████████████▓▓▓▓▓▓▓▓▓▓▓▓▓█████████████████████████',
   ];
 
-  const portraitRef = useRef<HTMLDivElement>(null);
-  const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const steveJobsPortraitSmall = [
+    '░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░',
+    '░░░░░░░░░░░░░░▓████▒░░░░░░░░░░░░░░░',
+    '░░░░░░░░░░░███████████░░░░░░░░░░░░░',
+    '░░░░░░░░░▓█▓▒▓▓▓▓▓▓▓████░░░░░░░░░░░',
+    '░░░░░░░░██▓░░░░░░░▒▒▓████░░░░░░░░░░',
+    '░░░░░░░░██▒░░░░░░░░▒▓████▓░░░░░░░░░',
+    '░░░░░░░░██▒░░░░░░░░▒▓████▓░░░░░░░░░',
+    '░░░░░░░▓█▓▒░░░░░░░░░▒▓████▓░░░░░░░░',
+    '░░░░░░░▓██▒▒▓▓▓▒░░▓████████░░░░░░░░',
+    '░░░░░░░▒▓▒░░░░▒▒░░█▓▒▓████▓░░░░░░░░',
+    '░░░░░░░░▒▒░░░░░░░░█▓░░▒▓██░░░░░░░░░',
+    '░░░░░░░░░▒▓▒░░░░░░██▓▒███░░░░░░░░░░',
+    '░░░░░░░░░░▒▒░░░░▒▓███▓███░░░░░░░░░░',
+    '░░░░░░░░░░░░▒▓▓▓▓▓██████▓░░░░░░░░░░',
+    '░░░░░░░░░░░▒▓▓▒░▒▓▓█████▓░░░░░░░░░░',
+    '░░░░░░░░░░░▒▓▓▒▒▒▓█▓▓█████▓░░░░░░░░',
+    '░░░░░░░░░░░▓▓▓█▒░░█████████████▓░░░',
+    '░░░░░░░░▓██████░░░░▒███████████████',
+    '░░░░░▓████████▓░░░░▒███████████████',
+    '░▒███████████▓░░░▓▓████████████████',
+    '████████████▓░░▒▒▒▓▓███████████████',
+    '█████████████▒▓▓▓▓▓▓▓██████████████',
+  ];
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    if (
-      portraitRef.current &&
-      lineRefs.current.length === steveJobsPortraitLarge.length
-    ) {
-      const tl = gsap.timeline({
+  // separate refs for large and small portraits so we can animate either one
+  const portraitRefLarge = useRef<HTMLDivElement>(null);
+  const portraitRefSmall = useRef<HTMLDivElement>(null);
+  const largeLineRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const smallLineRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useGSAP(() => {
+    if (largeLineRefs.current) {
+      gsap.set(largeLineRefs.current, { opacity: 0 });
+      gsap.to(largeLineRefs.current, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
         scrollTrigger: {
-          trigger: portraitRef.current,
-          start: 'top 90%',
+          trigger: portraitRefLarge.current,
+          start: 'top 100%',
           end: 'top 10%',
           scrub: true,
         },
       });
-      lineRefs.current.forEach((line, i) => {
-        tl.fromTo(
-          line,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.1 },
-          i * 0.01
-        );
+    }
+
+    if (smallLineRefs.current) {
+      gsap.set(smallLineRefs.current, { opacity: 0 });
+      gsap.to(smallLineRefs.current, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: portraitRefSmall.current,
+          start: 'top 100%',
+          end: 'top 50%',
+          scrub: true,
+          markers: true,
+        },
       });
     }
+
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, [steveJobsPortraitLarge.length]);
+  }, []);
 
   return (
     <section className='min-h-dvh w-dvw flex items-center justify-center flex-col dark:bg-black dark:text-green-500 py-12'>
-      <h2
-        className='blue-gradient-text dark:green-gradient-text font-black text-4xl mb-6'
-      >
+      <h2 className='blue-gradient-text dark:green-gradient-text font-black text-4xl mb-6'>
         Fun Fact
       </h2>
       <div className='w-full h-full flex flex-col-reverse gap-4 text-center px-12'>
-        <div className='text-[6px] sm:text-xs md:text-base lg:text-lg select-none'>
-          <pre
-            style={{
-              whiteSpace: 'pre',
-              lineHeight: '1',
-            }}
-          >
-            <div ref={portraitRef}>
-              {steveJobsPortraitLarge.map((line, idx) => (
-                <div
-                  key={idx}
-                  ref={(el) => {
-                    lineRefs.current[idx] = el;
-                  }}
-                  style={{ opacity: 0 }}
-                >
-                  {line}
-                </div>
-              ))}
-            </div>
-          </pre>
+        <div className='select-none'>
+          {/* large portrait: visible on small screens (hidden from md up) */}
+          <div className='text-base hidden md:block'>
+            <pre style={{ whiteSpace: 'pre', lineHeight: '1' }}>
+              <div ref={portraitRefLarge}>
+                {steveJobsPortraitLarge.map((line, idx) => (
+                  <div
+                    key={idx}
+                    ref={(el) => {
+                      largeLineRefs.current[idx] = el;
+                    }}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+            </pre>
+          </div>
+
+          {/* small portrait: hidden by default, shown from md and up */}
+          <div className='block md:hidden text-xs sm:text-lg'>
+            <pre style={{ whiteSpace: 'pre', lineHeight: '1' }}>
+              <div ref={portraitRefSmall}>
+                {steveJobsPortraitSmall.map((line, idx) => (
+                  <div
+                    key={idx}
+                    ref={(el) => {
+                      smallLineRefs.current[idx] = el;
+                    }}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+            </pre>
+          </div>
         </div>
         <div className=''>
           <p className='leading-10'>

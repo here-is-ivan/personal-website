@@ -24,13 +24,18 @@ const WorkExperience = () => {
   const blocksRef = useRef<HTMLDivElement[]>([]);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const squaresContainerRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+    const ref = sectionRef.current;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMouse({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    ref.addEventListener('mousemove', handleMouseMove);
+    return () => ref.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   useGSAP(() => {
@@ -92,7 +97,10 @@ const WorkExperience = () => {
   }, []);
 
   return (
-    <section className='relative w-dvw min-h-dvh flex justify-center dark:bg-black -z-10 overflow-hidden'>
+    <section
+      className='relative w-dvw min-h-dvh flex justify-center dark:bg-black overflow-hidden'
+      ref={sectionRef}
+    >
       <div
         className='absolute w-full h-full flex flex-col'
         ref={squaresContainerRef}
@@ -118,10 +126,9 @@ const WorkExperience = () => {
                     ref={(el) => {
                       squaresRefs.current[rowIdx][colIdx] = el;
                     }}
-                    className='square w-3 h-3 dark:bg-green-500 bg-blue-400 rounded-sm'
+                    className='square w-3 h-3 dark:bg-green-500 bg-blue-400 rounded-sm duration-150 ease-linear'
                     style={{
                       transform: `scale(${scale})`,
-                      transition: 'transform 0.15s',
                     }}
                   ></div>
                 </div>
