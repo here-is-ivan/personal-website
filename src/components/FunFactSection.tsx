@@ -115,7 +115,7 @@ const FunFactSection = () => {
   }, []);
 
   return (
-    <section className='min-h-dvh w-dvw flex items-center justify-center flex-col dark:bg-black dark:text-green-500 py-12'>
+    <section className='min-h-screen w-screen flex items-center justify-center flex-col dark:bg-black dark:text-green-500 py-12'>
       <h2 className='blue-gradient-text dark:green-gradient-text font-black text-4xl mb-6'>
         Fun Fact
       </h2>

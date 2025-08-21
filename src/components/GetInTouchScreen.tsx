@@ -18,7 +18,7 @@ const GetInTouchScreen = () => {
   return (
     <section
       ref={sectionRef}
-      className='relative w-dvw h-dvh flex justify-center items-center dark:text-white dark:bg-black'
+      className='relative w-screen h-screen flex justify-center items-center dark:text-white dark:bg-black'
       onMouseMove={handleMouseMove}
     >
       <div

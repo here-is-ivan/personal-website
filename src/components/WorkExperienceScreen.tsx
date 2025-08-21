@@ -98,7 +98,7 @@ const WorkExperience = () => {
 
   return (
     <section
-      className='relative w-dvw min-h-dvh flex justify-center dark:bg-black overflow-hidden'
+      className='relative w-screen min-h-screen flex justify-center dark:bg-black overflow-hidden'
       ref={sectionRef}
     >
       <div

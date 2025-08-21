@@ -67,7 +67,7 @@ const GreetingScreen = () => {
   }, []);
 
   return (
-    <section className='w-dvw h-dvh relative bg-white dark:bg-black'>
+    <section className='w-screen h-screen relative bg-white dark:bg-black'>
       <div
         className='w-full h-full absolute inset-0 flex justify-center items-center'
         ref={sectionRef}

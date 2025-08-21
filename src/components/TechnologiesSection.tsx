@@ -144,7 +144,7 @@ const TechnologiesSection = () => {
   return (
     <section
       ref={sectionRef}
-      className='w-dvw lg:min-h-dvh dark:bg-black dark:text-white flex flex-col items-center py-12'
+      className='w-screen lg:min-h-screen dark:bg-black dark:text-white flex flex-col items-center py-12'
     >
       <h2 className='blue-gradient-text dark:green-gradient-text font-black text-4xl mb-12'>
         My Skills
