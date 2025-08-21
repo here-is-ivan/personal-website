@@ -159,8 +159,8 @@ const WorkExperience = () => {
               </header>
               <p className='hidden md:block'>
                 Built investor-facing dashboards with dynamic charts and
-                animations, improving usability and accelerating VC outreach
-                while refining UI consistency with Tailwind.
+                animations, improving usability while refining UI consistency
+                with Tailwind.
               </p>
             </div>
             <div
