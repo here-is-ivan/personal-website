@@ -153,7 +153,7 @@ const WorkExperience = () => {
             >
               <header className='mb-2'>
                 <h3 className='blue-gradient-text dark:green-gradient-text font-bold text-xl'>
-                  Fullstack Software Engineer Internship
+                  Fullstack Software Engineer
                 </h3>
                 <div>Apr 2025 - Aug 2025</div>
               </header>
